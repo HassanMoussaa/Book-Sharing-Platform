@@ -18,21 +18,30 @@ const getUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
-  const { password, first_name, last_name, email } = req.body
+  const { password, first_name, last_name, email } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
-    email,
-    password: hashedPassword,
-    first_name,
-    last_name
-  })
-  await user.save();
+    const user = new User({
+      email,
+      password: hashedPassword,
+      first_name,
+      last_name
+    });
 
-  res.send(user)
+    await user.save();
 
-}
+    res.status(201).json({
+      message: 'User created successfully!',
+      user: user
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred while creating the user.' });
+  }
+};
+
+
 
 const updateUser = async (req, res) => {
   const { id } = req.params;
