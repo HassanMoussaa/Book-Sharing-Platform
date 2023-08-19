@@ -1,8 +1,8 @@
-const Post = require("../models/book.model")
+const Book = require("../models/book.model")
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find().populate("author");
+    const posts = await Book.find().populate("author");
     res.send(posts);
   } catch (error) {
     res.status(500).json({ message: 'An error occurred while fetching posts.' });
@@ -12,9 +12,9 @@ const getPost = async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const post = await Post.findById(postId).populate("author");
+    const post = await Book.findById(postId).populate("author");
     if (!post) {
-      return res.status(404).json({ message: 'Post not found.' });
+      return res.status(404).json({ message: 'Book not found.' });
     }
     res.send(post);
   } catch (error) {
@@ -22,22 +22,20 @@ const getPost = async (req, res) => {
   }
 }
 
-const createPost = async (req, res) => {
+const createBook = async (req, res) => {
   const { title, author, picture, review } = req.body;
 
-  const post = new Post({
+  const post = new Book({
     title,
     author,
     picture,
     review
   })
-  res.send(post)
    try {
     const savedBook = await post.save();
-    res.send(post)
-    res.status(201).json(savedBook);
+     return res.status(201).json(savedBook);
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while posting the book.' });
+    return res.status(500).json({ message: 'An error occurred while posting the book.' });
   }
 }
 
@@ -119,7 +117,7 @@ const getFeed = async (req, res) => {
 
   try {
     const followingIds = currentUser.following;
-    const feed = await Post.find({ author: { $in: followingIds } }).populate("author");
+    const feed = await Book.find({ author: { $in: followingIds } }).populate("author");
     res.status(200).json(feed);
   } catch (error) {
     res.status(500).json({ message: 'An error occurred while fetching the feed.' });
@@ -131,7 +129,7 @@ const getRecommendedBooks = async (req, res) => {
 
   try {
     const followingIds = currentUser.following;
-    const recommendedBooks = await Post.find({ author: { $in: followingIds } }).populate("author");
+    const recommendedBooks = await Book.find({ author: { $in: followingIds } }).populate("author");
     res.status(200).json(recommendedBooks);
   } catch (error) {
     res.status(500).json({ message: 'An error occurred while fetching recommended books.' });
@@ -164,7 +162,7 @@ const searchBooks = async (req, res) => {
 
 
 module.exports = {
-  createPost,
+  createBook,
   getAllPosts,
   getPost,
   addComment,

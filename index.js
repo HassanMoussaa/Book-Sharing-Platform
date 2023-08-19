@@ -13,8 +13,8 @@ app.use("/users", usersRoutes)
 const authRoutes = require("./routes/auth.route")
 app.use("/auth", authRoutes)
 
-const postsRoutes = require("./routes/posts.route")
-app.use("/posts", postsRoutes)
+const bookRoutes = require("./routes/book.route")
+app.use("/books", bookRoutes)
 
 app.listen(8000, (err) => {
   if (err) {

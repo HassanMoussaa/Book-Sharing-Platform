@@ -6,7 +6,7 @@ const authMiddleware = require("../middlewares/auth.middleware")
 router.get("/",authMiddleware, bookControllers.getAllPosts)
 router.get("/:id",authMiddleware, bookControllers.getPost)
 router.post("/:bookId/addcomment",authMiddleware, bookControllers.addComment)
-router.post("/",authMiddleware, bookControllers.createPost)
+router.post("/",authMiddleware, bookControllers.createBook)
 router.get("/feed", authMiddleware, bookControllers.getFeed);
 router.post("/:bookId/like", authMiddleware, bookControllers.likeBook);
 router.post("/:bookId/unlike", authMiddleware, bookControllers.unlikeBook);
