@@ -11,7 +11,7 @@ router.put("/:id",authMiddleware, userControllers.updateUser)
 router.delete("/:id",authMiddleware, userControllers.deleteUser)
 router.post("/:userId/follow", authMiddleware, userControllers.followUser);
 router.post("/:userId/unfollow", authMiddleware, userControllers.unfollowUser);
-router.get("/liked", authMiddleware, bookControllers.getLikedBooks);
+
 
 
 module.exports = router

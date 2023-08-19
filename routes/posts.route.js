@@ -10,8 +10,9 @@ router.post("/",authMiddleware, bookControllers.createPost)
 router.get("/feed", authMiddleware, bookControllers.getFeed);
 router.post("/:bookId/like", authMiddleware, bookControllers.likeBook);
 router.post("/:bookId/unlike", authMiddleware, bookControllers.unlikeBook);
+router.get("/liked", authMiddleware, bookControllers.getLikedBooks);
 router.get("/recommended", authMiddleware, bookControllers.getRecommendedBooks);
-router.get("/search", bookControllers.searchBooks);
+// router.get("/search", bookControllers.searchBooks);
 
 
 module.exports = router

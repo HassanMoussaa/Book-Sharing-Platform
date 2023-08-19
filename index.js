@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express();
 require("dotenv").config()
-// const connection = require("./configs/db.connection")\
+
 const mongoDb = require("./configs/mongodb.connection");
 
 // read json
@@ -22,10 +22,6 @@ app.listen(8000, (err) => {
   }
   mongoDb()
 
-  // connection.connect((err) => {
-  //   if (err) throw err
-  //   console.log("Connected to DB")
-  // })
-
+ 
   console.log("server is running on port: ", 8000)
 })
