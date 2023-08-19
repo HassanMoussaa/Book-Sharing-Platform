@@ -14,6 +14,12 @@ const bookSchema = new mongoose.Schema({
   author: String,
   picture: String,
   review: String,
+   genre: 
+   {
+    type:String,
+    enum:["Action","Commedy"]
+  },
+
   liked_by: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   comments: [commentSchema]
 });
