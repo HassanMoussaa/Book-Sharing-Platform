@@ -63,9 +63,10 @@ const addComment = async (req, res) => {
 const likeBook = async (req, res) => {
   const { bookId } = req.params;
   const currentUser = req.user; 
-
+ 
   try {
     const book = await Book.findById(bookId);
+    console.log(book)
     if (!book) {
       return res.status(404).json({ message: 'Book not found.' });
     }
@@ -100,13 +101,14 @@ const unlikeBook = async (req, res) => {
 };
 
 const getLikedBooks = async (req, res) => {
+  
   const currentUser = req.user; 
-
+  console.log(currentUser)
   try {
-    const likedBooks = await Book.find({ liked_by: currentUser._id }).populate("liked_by");
+    const likedBooks = await Book.find({ liked_by: currentUser._id });
     res.status(200).json(likedBooks);
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while fetching liked books.' });
+    return res.status(500).json({ message: 'An error occurred while fetching liked books.' });
   }
 };
 
@@ -117,10 +119,10 @@ const getFeed = async (req, res) => {
 
   try {
     const followingIds = currentUser.following;
-    const feed = await Book.find({ author: { $in: followingIds } }).populate("author");
-    res.status(200).json(feed);
+    const feed = await Book.find({ author: { $in: followingIds } }).populate("user");
+    return res.status(200).json(feed);
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while fetching the feed.' });
+    return res.status(500).json({ message: 'An error occurred while fetching the feed.' });
   }
 };
 
@@ -170,5 +172,6 @@ module.exports = {
   unlikeBook,
   getLikedBooks,
   getFeed,
-  getRecommendedBooks
+  getRecommendedBooks,
+  searchBooks
 }

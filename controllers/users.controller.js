@@ -70,10 +70,12 @@ const followUser = async (req, res) => {
     }
 
     currentUser.following.push(userId);
+    console.log(currentUser)
     await currentUser.save();
 
     res.status(200).json({ message: 'User followed successfully.' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: 'An error occurred while following the user.' });
   }
 };
