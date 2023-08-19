@@ -102,18 +102,18 @@ const unlikeBook = async (req, res) => {
   }
 };
 
-const getLikedBooks = async (req, res) => {
-  
-  const currentUser = req.user; 
-  console.log(currentUser)
+const checkIfBookIsLiked = async (req, res) => {
+  const currentUser = req.user;
+  const bookId = req.params.bookId;
+
   try {
-    const likedBooks = await Book.find({ liked_by: currentUser._id });
-    res.status(200).json(likedBooks);
+    const likedBooks = await Book.find({ _id: bookId, liked_by: currentUser._id });
+    const isLiked = likedBooks.length > 0;
+    res.status(200).json({ isLiked });
   } catch (error) {
-    return res.status(500).json({ message: 'An error occurred while fetching liked books.' });
+    return res.status(500).json({ message: 'An error occurred while checking if the book is liked.' });
   }
 };
-
 
 
 const getFeed = async (req, res) => {
@@ -165,7 +165,16 @@ const searchBooks = async (req, res) => {
   }
 };
 
+// const getLikedBooks = async (req, res) => {
+//   const currentUser = req.user;
 
+//   try {
+//     const likedBooks = await Book.find({ liked_by: currentUser._id });
+//     res.status(200).json(likedBooks);
+//   } catch (error) {
+//     return res.status(500).json({ message: 'An error occurred while fetching liked books.' });
+//   }
+// };
 
 
 module.exports = {
@@ -175,7 +184,7 @@ module.exports = {
   addComment,
   likeBook,
   unlikeBook,
-  getLikedBooks,
+  checkIfBookIsLiked,
   getFeed,
   getRecommendedBooks,
   searchBooks
