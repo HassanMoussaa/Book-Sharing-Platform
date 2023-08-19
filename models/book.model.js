@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  commented_user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   content: String,
   timestamp: { type: Date, default: Date.now }
 });
@@ -14,10 +14,10 @@ const bookSchema = new mongoose.Schema({
   author: String,
   picture: String,
   review: String,
-  liked_by: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  liked_by: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   comments: [commentSchema]
 });
 
-const Book = mongoose.model("Book", bookSchema);
+const Book = mongoose.model("book", bookSchema);
 
 module.exports = Book;
