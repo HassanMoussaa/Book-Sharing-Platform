@@ -18,6 +18,7 @@ const bookSchema = new mongoose.Schema({
   comments: [commentSchema]
 });
 
+ bookSchema.index({title:1})
 const Book = mongoose.model("book", bookSchema);
 
 module.exports = Book;

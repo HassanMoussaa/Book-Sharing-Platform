@@ -152,11 +152,11 @@ const searchBooks = async (req, res) => {
     if (keywords) {
       query.$text = { $search: keywords };
     }
-
+    
     const searchResults = await Book.find(query);
-    res.status(200).json(searchResults);
+    return res.status(200).json(searchResults);
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while searching for books.' });
+    return res.status(500).json({ message: 'An error occurred while searching for books.' });
   }
 };
 
