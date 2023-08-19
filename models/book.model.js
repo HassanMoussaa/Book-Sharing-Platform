@@ -21,7 +21,8 @@ const bookSchema = new mongoose.Schema({
   },
 
   liked_by: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-  comments: [commentSchema]
+  comments: [commentSchema],
+  posted_by: { type: mongoose.Schema.Types.ObjectId, ref: "user" }
 });
 
  bookSchema.index({title:1})

@@ -24,12 +24,14 @@ const getPost = async (req, res) => {
 
 const createBook = async (req, res) => {
   const { title, author, picture, review } = req.body;
+  const posted_by = req.user.id;
 
   const post = new Book({
     title,
     author,
     picture,
-    review
+    review,
+    posted_by
   })
    try {
     const savedBook = await post.save();
@@ -116,10 +118,13 @@ const getLikedBooks = async (req, res) => {
 
 const getFeed = async (req, res) => {
   const currentUser = req.user; 
-
   try {
     const followingIds = currentUser.following;
-    const feed = await Book.find({ author: { $in: followingIds } }).populate("user");
+    const feed = await Book.find({ posted_by: { $in: followingIds } })
+      .populate("posted_by") 
+      .populate("liked_by")   
+      
+
     return res.status(200).json(feed);
   } catch (error) {
     return res.status(500).json({ message: 'An error occurred while fetching the feed.' });
