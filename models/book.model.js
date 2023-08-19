@@ -17,7 +17,7 @@ const bookSchema = new mongoose.Schema({
    genre: 
    {
     type:String,
-    enum:["Action","Commedy"]
+    enum:["Action","Commedy","Fantasy"]
   },
 
   liked_by: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
