@@ -16,5 +16,6 @@ router.get('/:bookId/isliked', authMiddleware, bookControllers.checkIfBookIsLike
 router.get("/recommended", authMiddleware, bookControllers.getRecommendedBooks);
 router.get("/search", bookControllers.searchBooks);
 router.get("/:id",authMiddleware, bookControllers.getPost)
+router.post("/addComment/:bookId",authMiddleware, bookControllers.addComment)
 
 module.exports = router

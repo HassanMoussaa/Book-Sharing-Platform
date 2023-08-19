@@ -45,22 +45,23 @@ const createBook = async (req, res) => {
 
 const addComment = async (req, res) => {
   const { bookId } = req.params;
-  const { author, content } = req.body;
+   const { content } = req.body;
+  const currentUser = req.user;
 
   try {
-    const updatedBook = await Book.findByIdAndUpdate(
+   const updatedBook = await Book.findByIdAndUpdate(
       bookId,
-      { $push: { comments: { author, content } } },
+      { $push: { comments: { author: `${currentUser.first_name} ${currentUser.last_name}`, content } } },
       { new: true }
-    );
+    ).populate("comments.author");
 
     if (!updatedBook) {
       return res.status(404).json({ message: 'Book not found.' });
     }
 
-    res.status(201).json(updatedBook);
+    return res.status(201).json(updatedBook);
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while adding the comment.' });
+    return res.status(500).json({ message: 'An error occurred while adding the comment.' });
   }
 };
 
