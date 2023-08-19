@@ -8,6 +8,7 @@ const mongoDb = require("./configs/mongodb.connection");
 app.use(cors());
 // read json
 app.use(express.json())
+app.use('/images', express.static('images/post_images'));
 
 const usersRoutes = require("./routes/users.route")
 app.use("/users", usersRoutes)

@@ -23,9 +23,11 @@ const getPost = async (req, res) => {
 }
 
 const createBook = async (req, res) => {
-  const { title, author, picture, review } = req.body;
+  const { title, author, review } = req.body;
   const posted_by = req.user.id;
-
+  
+  picture =
+      "http://localhost:8000/images/" + req.file.filename;
   const post = new Book({
     title,
     author,
