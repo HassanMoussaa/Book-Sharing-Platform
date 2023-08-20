@@ -26,7 +26,8 @@ const createBook = async (req, res) => {
   const { title, author, review } = req.body;
   const posted_by = req.user.id;
   
-  picture =
+  if(req.file){
+      picture =
       "http://localhost:8000/images/" + req.file.filename;
   const post = new Book({
     title,
@@ -41,6 +42,11 @@ const createBook = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: 'An error occurred while posting the book.' });
   }
+
+  }else{
+     return res.status(400).json({ message: 'File missing in request!.' });
+  }
+  
 }
 
 const addComment = async (req, res) => {
