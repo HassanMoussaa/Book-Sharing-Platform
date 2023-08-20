@@ -164,9 +164,11 @@ const searchBooks = async (req, res) => {
     const searchResults = await Book.find(query);
     return res.status(200).json(searchResults);
   } catch (error) {
+    console.error("Error searching for books:", error);
     return res.status(500).json({ message: 'An error occurred while searching for books.' });
   }
 };
+
 
 // const getLikedBooks = async (req, res) => {
 //   const currentUser = req.user;

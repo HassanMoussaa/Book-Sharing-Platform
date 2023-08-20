@@ -28,5 +28,5 @@ const bookSchema = new mongoose.Schema({
 
  bookSchema.index({title:1})
 const Book = mongoose.model("book", bookSchema);
-
+bookSchema.index({ title: "text", author: "text", review: "text" })
 module.exports = Book;
