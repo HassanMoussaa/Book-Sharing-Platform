@@ -28,6 +28,17 @@ const createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
+   if (!email || !password || !first_name || !last_name) {
+    return res.status(400).json({ message: 'All fields are required.' });
+   }
+   
+    if (!isValidEmail(email)) {
+    return res.status(400).json({ message: 'Invalid email format.' });
+  }
+    if (password.length < 3) {
+    return res.status(400).json({ message: 'Password must be at least 4 characters.' });
+  }
+
     const user = new User({
       email,
       password: hashedPassword,
