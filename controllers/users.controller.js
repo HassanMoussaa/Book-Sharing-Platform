@@ -3,10 +3,15 @@ const bcrypt = require("bcrypt")
 const User = require("../models/user.model")
 
 const getAllUsers = async (req, res) => {
+  try {
+    const currentUser = req.user; 
 
-  const users = await User.find();
-  res.send(users)
-}
+    const users = await User.find({ _id: { $ne: currentUser._id } });
+   return res.status(200).json(users);
+  } catch (error) {
+   return  res.status(500).json({ message: 'An error occurred while fetching users.' });
+  }
+};
 
 const getUser = async (req, res) => {
   const { id } = req.params;
@@ -91,17 +96,26 @@ const followUser = async (req, res) => {
 
 const unfollowUser = async (req, res) => {
   const { userId } = req.params;
-  const currentUser = req.user; 
+  const currentUser = req.user;
 
   try {
-    currentUser.following = currentUser.following.filter(id => id !== userId);
-    await currentUser.save();
-
-    res.status(200).json({ message: 'User unfollowed successfully.' });
+   
+    const index = currentUser.following.indexOf(userId);
+    
+    
+    if (index !== -1) {
+      currentUser.following.splice(index, 1);
+      await currentUser.save();
+      return res.status(200).json({ message: 'User unfollowed successfully.' });
+    } else {
+      return res.status(404).json({ message: 'User not found in the following list.' });
+    }
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred while unfollowing the user.' });
+    return res.status(500).json({ message: 'An error occurred while unfollowing the user.' });
   }
 };
+
+
 
 
 
