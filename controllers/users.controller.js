@@ -7,11 +7,19 @@ const getAllUsers = async (req, res) => {
     const currentUser = req.user; 
 
     const users = await User.find({ _id: { $ne: currentUser._id } });
-   return res.status(200).json(users);
+
+    
+    const usersWithFollowStatus = users.map(user => {
+      const isFollowed = currentUser.following.includes(user._id);
+      return { ...user.toObject(), is_followed: isFollowed };
+    });
+
+    return res.status(200).json(usersWithFollowStatus);
   } catch (error) {
-   return  res.status(500).json({ message: 'An error occurred while fetching users.' });
+    return res.status(500).json({ message: 'An error occurred while fetching users.' });
   }
 };
+
 
 const getUser = async (req, res) => {
   const { id } = req.params;
