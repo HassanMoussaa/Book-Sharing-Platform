@@ -187,6 +187,24 @@ const searchBooks = async (req, res) => {
 //   }
 // };
 
+const getUserPosts = async (req, res) => {
+  const currentUser = req.user; 
+  
+  
+  try {
+    const userPosts = await Book.find({ posted_by: currentUser._id })
+      .populate("posted_by") 
+      .populate("liked_by");   
+      
+    return res.status(200).json(userPosts);
+  } catch (error) {
+   
+    return res.status(500).json({ message: 'An error occurred while fetching the user posts.' });
+  }
+};
+
+
+
 
 module.exports = {
   createBook,
@@ -198,5 +216,6 @@ module.exports = {
   checkIfBookIsLiked,
   getFeed,
   getRecommendedBooks,
-  searchBooks
+  searchBooks,
+  getUserPosts
 }

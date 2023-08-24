@@ -6,6 +6,7 @@ const picture_uploader =require("../middlewares/picture_uploader")
 
 router.get("/",authMiddleware, bookControllers.getAllPosts)
 router.post("/:bookId/addcomment",authMiddleware, bookControllers.addComment)
+router.get("/postsuser",authMiddleware, bookControllers.getUserPosts);
 
 router.post("/",authMiddleware,picture_uploader.upload.single("image"), bookControllers.createBook)
 
